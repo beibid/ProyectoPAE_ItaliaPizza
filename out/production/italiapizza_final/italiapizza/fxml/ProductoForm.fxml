@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="italiapizza.vista.ProductoFormVista">
+    <GridPane hgap="10" vgap="10">
+        <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+        <Label text="Código: *"      GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="campoCodigo"        GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="220"/>
+        <Label text="Nombre: *"      GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="campoNombre"        GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="220"/>
+        <Label text="Descripción:"   GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextArea  fx:id="campoDescripcion"   GridPane.rowIndex="2" GridPane.columnIndex="1" prefWidth="220" prefRowCount="3"/>
+        <Label text="Precio: *"      GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <TextField fx:id="campoPrecio"        GridPane.rowIndex="3" GridPane.columnIndex="1" prefWidth="220"/>
+        <Label text="Restricciones:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <TextField fx:id="campoRestricciones" GridPane.rowIndex="4" GridPane.columnIndex="1" prefWidth="220"/>
+        <Label text="Cantidad:"      GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+        <TextField fx:id="campoCantidad"      GridPane.rowIndex="5" GridPane.columnIndex="1" prefWidth="220" text="0"/>
+        <Label text="Foto:"          GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+        <HBox spacing="8"            GridPane.rowIndex="6" GridPane.columnIndex="1">
+            <Button text="📷 Seleccionar foto" onAction="#seleccionarFotoProducto"/>
+            <ImageView fx:id="imagenProducto" fitWidth="120" fitHeight="120" preserveRatio="true"/>
+        </HBox>
+        <Label fx:id="etiquetaError" style="-fx-text-fill: red;"
+               GridPane.rowIndex="7" GridPane.columnIndex="0" GridPane.columnSpan="2"/>
+        <HBox spacing="10" GridPane.rowIndex="8" GridPane.columnIndex="0" GridPane.columnSpan="2">
+            <Button text="💾 Guardar"  onAction="#ejecutarGuardarProducto"
+                    style="-fx-background-color: #2980b9; -fx-text-fill: white;"/>
+            <Button text="✖ Cancelar" onAction="#ejecutarCancelar"/>
+        </HBox>
+    </GridPane>
+</ScrollPane>

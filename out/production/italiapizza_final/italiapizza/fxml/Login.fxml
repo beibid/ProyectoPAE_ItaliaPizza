@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" spacing="16"
+      xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="italiapizza.vista.LoginVista"
+      style="-fx-background-color: #f8f9fa;">
+    <padding><Insets top="40" right="40" bottom="40" left="40"/></padding>
+
+    <Label text="Italia Pizza"
+           style="-fx-font-size: 28px; -fx-font-weight: BOLD; -fx-text-fill: #c0392b;"/>
+
+    <Label text="Sistema de Administración"
+           style="-fx-font-style: italic; -fx-font-size: 14px; -fx-text-fill: #7f8c8d;"/>
+
+    <VBox spacing="12" maxWidth="340"
+          style="-fx-background-color: white; -fx-background-radius: 10;
+                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 4);">
+        <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+
+        <Label text="Usuario:"/>
+        <TextField fx:id="campoNombreUsuario" promptText="Usuario" prefWidth="280"/>
+
+        <Label text="Contraseña:"/>
+        <PasswordField fx:id="campoContrasena" promptText="Contraseña" prefWidth="280"/>
+
+        <Label fx:id="etiquetaError" style="-fx-text-fill: red;"
+               visible="false" managed="false"/>
+
+        <Button text="Ingresar" prefWidth="280"
+                onAction="#manejarIngresoSesion"
+                style="-fx-background-color: #c0392b; -fx-text-fill: white;
+                       -fx-font-size: 14px; -fx-cursor: hand; -fx-background-radius: 6;"/>
+    </VBox>
+</VBox>

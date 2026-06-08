@@ -6,7 +6,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="italiapizza.vista.VentanaPrincipalVista">
+            fx:controller="italiapizza.controlador.VentanaPrincipalControlador">
 
     <top>
         <MenuBar style="-fx-background-color: #c0392b;">

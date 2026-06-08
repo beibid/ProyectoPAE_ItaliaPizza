@@ -1,6 +1,6 @@
 package italiapizza;
 
-import italiapizza.vista.LoginVista;
+import italiapizza.controlador.LoginControlador;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -13,7 +13,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage escenarioPrincipal) throws IOException {
-        LoginVista.mostrarEn(escenarioPrincipal);
+        LoginControlador.mostrarEn(escenarioPrincipal);
     }
 
     public static void main(String[] argumentos) {

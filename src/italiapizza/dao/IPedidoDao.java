@@ -1,12 +1,13 @@
 package italiapizza.dao;
 
 import italiapizza.excepcion.DaoException;
+import italiapizza.excepcion.ExistenciaInsuficienteException;
 import italiapizza.modelo.Pedido;
 import java.time.LocalDate;
 import java.util.List;
 
 public interface IPedidoDao {
-    void   registrar(Pedido pedido)       throws DaoException;
+    void   registrar(Pedido pedido)       throws DaoException, ExistenciaInsuficienteException;
     void   actualizarEstatus(int idPedido, Pedido.Estatus estatus) throws DaoException;
     void   actualizarDetalles(Pedido pedido) throws DaoException;
     Pedido buscarPorId(int idPedido)      throws DaoException;

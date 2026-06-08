@@ -26,5 +26,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="commons-9.6.0" level="project" />
+    <orderEntry type="library" name="slf4j-api-2.0.13" level="project" />
   </component>
 </module>

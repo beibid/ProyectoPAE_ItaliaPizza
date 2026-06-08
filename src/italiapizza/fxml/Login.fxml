@@ -7,7 +7,7 @@
 <VBox alignment="CENTER" spacing="16"
       xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="italiapizza.vista.LoginVista"
+      fx:controller="italiapizza.controlador.LoginControlador"
       style="-fx-background-color: #f8f9fa;">
     <padding><Insets top="40" right="40" bottom="40" left="40"/></padding>
 

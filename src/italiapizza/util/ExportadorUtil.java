@@ -3,6 +3,12 @@ package italiapizza.util;
 import italiapizza.modelo.DetallePedido;
 import italiapizza.modelo.Pedido;
 import italiapizza.modelo.Producto;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.FileChooser;
@@ -73,27 +79,44 @@ public class ExportadorUtil {
             return;
         }
 
-        try (PrintWriter escritor = new PrintWriter(
-                new OutputStreamWriter(new FileOutputStream(archivoDestino), "UTF-8"))) {
-            escritor.println("=== REPORTE DE PEDIDOS - ITALIA PIZZA ===\n");
+        try {
+            PdfDocument pdfDocumento = new PdfDocument(new PdfWriter(archivoDestino));
+            Document documento = new Document(pdfDocumento);
+
+            documento.add(new Paragraph("Reporte de Pedidos - Italia Pizza\n"));
+
+            Table tabla = new Table(new float[]{3, 3, 6, 2, 2});
+            tabla.addHeaderCell(new Cell().add(new Paragraph("Fecha")));
+            tabla.addHeaderCell(new Cell().add(new Paragraph("Cliente")));
+            tabla.addHeaderCell(new Cell().add(new Paragraph("Productos")));
+            tabla.addHeaderCell(new Cell().add(new Paragraph("Total")));
+            tabla.addHeaderCell(new Cell().add(new Paragraph("Estatus")));
+
             for (Pedido pedido : listaPedidos) {
-                escritor.printf("Pedido #%d | %s | Cliente: %s | Total: $%.2f | Estatus: %s%n",
-                        pedido.getIdPedido(),
-                        pedido.getFecha().format(FORMATO_FECHA_HORA),
-                        pedido.getCliente(),
-                        pedido.getTotal(),
-                        pedido.getEstatus());
+                tabla.addCell(new Cell().add(
+                        new Paragraph(pedido.getFecha().format(FORMATO_FECHA_HORA))));
+                tabla.addCell(new Cell().add(
+                        new Paragraph(pedido.getCliente().toString())));
+
+                StringBuilder productos = new StringBuilder();
                 for (DetallePedido detalle : pedido.getDetalles()) {
-                    escritor.printf("   - %s x%d @ $%.2f = $%.2f%n",
-                            detalle.getProducto().getNombre(),
-                            detalle.getCantidad(),
-                            detalle.getPrecioUnit(),
-                            detalle.getSubtotal());
+                    productos.append(detalle.getProducto().getNombre())
+                            .append(" x").append(detalle.getCantidad())
+                            .append(" = $").append(String.format("%.2f", detalle.getSubtotal()))
+                            .append("\n");
                 }
-                escritor.println();
+                tabla.addCell(new Cell().add(new Paragraph(productos.toString().trim())));
+                tabla.addCell(new Cell().add(
+                        new Paragraph(String.format("$%.2f", pedido.getTotal()))));
+                tabla.addCell(new Cell().add(
+                        new Paragraph(pedido.getEstatus().name())));
             }
+
+            documento.add(tabla);
+            documento.close();
+
             mostrarAlertaInformacion("Exportación exitosa", "Archivo PDF guardado correctamente.");
-        } catch (IOException excepcion) {
+        } catch (Exception excepcion) {
             mostrarAlertaError("Error al exportar PDF: " + excepcion.getMessage());
         }
     }
@@ -111,21 +134,32 @@ public class ExportadorUtil {
             return;
         }
 
-        try (PrintWriter escritor = new PrintWriter(
-                new OutputStreamWriter(new FileOutputStream(archivoDestino), "UTF-8"))) {
-            escritor.println("=== REPORTE DE INVENTARIO - ITALIA PIZZA ===\n");
-            escritor.printf("%-10s %-30s %10s %10s%n",
-                    "Código", "Nombre", "Precio", "Existencia");
-            escritor.println("-".repeat(65));
+        try {
+            PdfDocument pdfDocumento = new PdfDocument(new PdfWriter(archivoDestino));
+            Document documento = new Document(pdfDocumento);
+
+            documento.add(new Paragraph("Reporte de Inventario - Italia Pizza\n"));
+
+            Table tabla = new Table(new float[]{2, 5, 2, 2});
+            tabla.addHeaderCell(new Cell().add(new Paragraph("Código")));
+            tabla.addHeaderCell(new Cell().add(new Paragraph("Nombre")));
+            tabla.addHeaderCell(new Cell().add(new Paragraph("Precio")));
+            tabla.addHeaderCell(new Cell().add(new Paragraph("Existencia")));
+
             for (Producto producto : listaProductos) {
-                escritor.printf("%-10s %-30s %10.2f %10d%n",
-                        producto.getCodigo(),
-                        producto.getNombre(),
-                        producto.getPrecio(),
-                        producto.getCantidad());
+                tabla.addCell(new Cell().add(new Paragraph(producto.getCodigo())));
+                tabla.addCell(new Cell().add(new Paragraph(producto.getNombre())));
+                tabla.addCell(new Cell().add(
+                        new Paragraph(String.format("$%.2f", producto.getPrecio()))));
+                tabla.addCell(new Cell().add(
+                        new Paragraph(String.valueOf(producto.getCantidad()))));
             }
+
+            documento.add(tabla);
+            documento.close();
+
             mostrarAlertaInformacion("Reporte generado", "Inventario exportado correctamente.");
-        } catch (IOException excepcion) {
+        } catch (Exception excepcion) {
             mostrarAlertaError("Error al generar reporte: " + excepcion.getMessage());
         }
     }

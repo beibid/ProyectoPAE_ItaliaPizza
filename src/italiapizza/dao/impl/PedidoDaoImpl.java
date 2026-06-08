@@ -2,6 +2,7 @@ package italiapizza.dao.impl;
 
 import italiapizza.dao.IPedidoDao;
 import italiapizza.excepcion.DaoException;
+import italiapizza.excepcion.ExistenciaInsuficienteException;
 import italiapizza.modelo.DetallePedido;
 import italiapizza.modelo.Pedido;
 import italiapizza.modelo.Producto;
@@ -27,6 +28,12 @@ public class PedidoDaoImpl implements IPedidoDao {
     private static final String SQL_INSERTAR_DETALLE =
             "INSERT INTO detalle_pedido (id_pedido, id_producto, cantidad, precio_unit) " +
             "VALUES (?,?,?,?)";
+
+    private static final String SQL_RESTAR_STOCK =
+            "UPDATE producto SET cantidad = cantidad - ? WHERE id_producto = ?";
+
+    private static final String SQL_VERIFICAR_STOCK =
+            "SELECT cantidad FROM producto WHERE id_producto = ?";
 
     private static final String SQL_ACTUALIZAR_ESTATUS =
             "UPDATE pedido SET estatus=? WHERE id_pedido=?";
@@ -65,12 +72,14 @@ public class PedidoDaoImpl implements IPedidoDao {
             "JOIN producto pr ON dp.id_producto = pr.id_producto WHERE dp.id_pedido=?";
 
     @Override
-    public void registrar(Pedido pedido) throws DaoException {
+    public void registrar(Pedido pedido) throws DaoException, ExistenciaInsuficienteException {
         try (Connection conexion = Conexion.obtenerConexion()) {
+            verificarExistencias(conexion, pedido);
             conexion.setAutoCommit(false);
             try {
                 insertarCabeceraPedido(conexion, pedido);
                 insertarDetallesPedido(conexion, pedido);
+                actualizarStockProductos(conexion, pedido);
                 conexion.commit();
             } catch (SQLException excepcion) {
                 conexion.rollback();
@@ -88,7 +97,7 @@ public class PedidoDaoImpl implements IPedidoDao {
             sentencia.setTimestamp(1, Timestamp.valueOf(pedido.getFecha()));
             sentencia.setDouble(2,   pedido.getTotal());
             sentencia.setString(3,   pedido.getEstatus().name());
-            sentencia.setInt(4,      pedido.getCliente().getIdUsuario());
+            sentencia.setInt(4,      pedido.getIdCliente());
             sentencia.executeUpdate();
             try (ResultSet claves = sentencia.getGeneratedKeys()) {
                 if (claves.next()) {
@@ -105,6 +114,38 @@ public class PedidoDaoImpl implements IPedidoDao {
                 sentencia.setInt(2,    detalle.getProducto().getIdProducto());
                 sentencia.setInt(3,    detalle.getCantidad());
                 sentencia.setDouble(4, detalle.getPrecioUnit());
+                sentencia.addBatch();
+            }
+            sentencia.executeBatch();
+        }
+    }
+
+    private void verificarExistencias(Connection conexion, Pedido pedido)
+            throws SQLException, ExistenciaInsuficienteException {
+        try (PreparedStatement sentencia = conexion.prepareStatement(SQL_VERIFICAR_STOCK)) {
+            for (DetallePedido detalle : pedido.getDetalles()) {
+                sentencia.setInt(1, detalle.getProducto().getIdProducto());
+                try (ResultSet resultado = sentencia.executeQuery()) {
+                    if (resultado.next()) {
+                        int cantidadDisponible = resultado.getInt("cantidad");
+                        if (detalle.getCantidad() > cantidadDisponible) {
+                            throw new ExistenciaInsuficienteException(
+                                    "Stock insuficiente para \"" +
+                                    detalle.getProducto().getNombre() +
+                                    "\": disponible " + cantidadDisponible +
+                                    ", solicitado " + detalle.getCantidad() + ".");
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void actualizarStockProductos(Connection conexion, Pedido pedido) throws SQLException {
+        try (PreparedStatement sentencia = conexion.prepareStatement(SQL_RESTAR_STOCK)) {
+            for (DetallePedido detalle : pedido.getDetalles()) {
+                sentencia.setInt(1, detalle.getCantidad());
+                sentencia.setInt(2, detalle.getProducto().getIdProducto());
                 sentencia.addBatch();
             }
             sentencia.executeBatch();

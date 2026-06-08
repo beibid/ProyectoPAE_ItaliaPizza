@@ -12,6 +12,7 @@ public class Pedido {
     public enum Estatus { EN_PROCESO, ENTREGADO, CANCELADO }
 
     private int           idPedido;
+    private int           idCliente;
     private LocalDateTime fecha;
     private double        total;
     private Estatus       estatus;
@@ -26,6 +27,9 @@ public class Pedido {
 
     public int           getIdPedido()  { return idPedido; }
     public void          setIdPedido(int idPedido) { this.idPedido = idPedido; }
+
+    public int           getIdCliente() { return idCliente; }
+    public void          setIdCliente(int idCliente) { this.idCliente = idCliente; }
 
     public LocalDateTime getFecha()     { return fecha; }
     public void          setFecha(LocalDateTime fecha) { this.fecha = fecha; }

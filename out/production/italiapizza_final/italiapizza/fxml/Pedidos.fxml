@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="italiapizza.controlador.PedidosControlador">
+    <top>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+            <ComboBox fx:id="comboTipoFiltro"    prefWidth="130" onAction="#actualizarVisibilidadFiltros"/>
+            <ComboBox fx:id="comboClienteFiltro" prefWidth="180" visible="false" managed="false"/>
+            <DatePicker fx:id="selectorFecha"    visible="false" managed="false"/>
+            <ComboBox fx:id="comboEstatusFiltro" prefWidth="140" visible="false" managed="false"/>
+            <Button text="Buscar" onAction="#ejecutarBusqueda"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Exportar CSV" onAction="#exportarCSV"
+                    style="-fx-background-color: #16a085; -fx-text-fill: white;"/>
+            <Button text="Exportar PDF" onAction="#exportarPDF"
+                    style="-fx-background-color: #8e44ad; -fx-text-fill: white;"/>
+            <Button text="+ Nuevo Pedido" onAction="#abrirFormularioNuevoPedido"
+                    style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+        </HBox>
+    </top>
+    <center>
+        <TableView fx:id="tablaPedidos">
+            <columns>
+                <TableColumn fx:id="columnaIdentificador" text="ID"/>
+                <TableColumn fx:id="columnaCliente"       text="Cliente"/>
+                <TableColumn fx:id="columnaFecha"         text="Fecha"/>
+                <TableColumn fx:id="columnaTotal"         text="Total"/>
+                <TableColumn fx:id="columnaEstatus"       text="Estatus"/>
+            </columns>
+        </TableView>
+    </center>
+    <bottom>
+        <HBox spacing="8">
+            <padding><Insets top="8" right="10" bottom="10" left="10"/></padding>
+            <Button fx:id="botonEditarPedido"   text="Editar Productos"  disable="true"
+                    onAction="#abrirFormularioEditarPedido"/>
+            <Button fx:id="botonCambiarEstatus" text="Cambiar Estatus"   disable="true"
+                    onAction="#ejecutarCambioEstatus"/>
+        </HBox>
+    </bottom>
+</BorderPane>

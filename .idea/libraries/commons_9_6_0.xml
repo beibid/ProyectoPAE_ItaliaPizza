@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="commons-9.6.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/OneDrive/Documentos/commons-9.6.0.jar!/" />
+      <root url="jar://$USER_HOME$/OneDrive/Documentos/io-9.6.0.jar!/" />
+      <root url="jar://$USER_HOME$/OneDrive/Documentos/kernel-9.6.0.jar!/" />
+      <root url="jar://$USER_HOME$/OneDrive/Documentos/layout-9.6.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

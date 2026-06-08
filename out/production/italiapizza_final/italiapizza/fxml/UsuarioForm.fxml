@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane fitToWidth="true"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="italiapizza.controlador.UsuarioFormControlador">
+    <VBox spacing="8">
+        <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Label text="Nombre: *"    prefWidth="130"/>
+            <TextField fx:id="campoNombre"         prefWidth="220"/>
+        </HBox>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Label text="Apellidos: *" prefWidth="130"/>
+            <TextField fx:id="campoApellidos"      prefWidth="220"/>
+        </HBox>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Label text="Teléfono: *"  prefWidth="130"/>
+            <TextField fx:id="campoTelefono"       prefWidth="220"/>
+        </HBox>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Label text="Email:"       prefWidth="130"/>
+            <TextField fx:id="campoEmail"          prefWidth="220"/>
+        </HBox>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Label text="Calle:"       prefWidth="130"/>
+            <TextField fx:id="campoCalle"          prefWidth="220"/>
+        </HBox>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Label text="Número:"      prefWidth="130"/>
+            <TextField fx:id="campoNumero"         prefWidth="220"/>
+        </HBox>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Label text="Código Postal:" prefWidth="130"/>
+            <TextField fx:id="campoCodigoPostal"   prefWidth="220"/>
+        </HBox>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Label text="Ciudad:"      prefWidth="130"/>
+            <TextField fx:id="campoCiudad"         prefWidth="220"/>
+        </HBox>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Label text="Tipo: *"      prefWidth="130"/>
+            <ComboBox fx:id="comboTipoUsuario" prefWidth="220"
+                      onAction="#actualizarVisibilidadPanelEmpleado"/>
+        </HBox>
+
+        <VBox fx:id="panelDatosEmpleado" spacing="8" visible="false" managed="false">
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Label text="Usuario:"     prefWidth="130"/>
+                <TextField fx:id="campoNombreUsuarioSistema" prefWidth="220"/>
+            </HBox>
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Label text="Contraseña:" prefWidth="130"/>
+                <PasswordField fx:id="campoContrasena" prefWidth="220"/>
+            </HBox>
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Label text="Rol:"        prefWidth="130"/>
+                <ComboBox fx:id="comboRolEmpleado" prefWidth="220"/>
+            </HBox>
+        </VBox>
+
+        <Label fx:id="etiquetaError" style="-fx-text-fill: red;"/>
+
+        <HBox spacing="10">
+            <Button text="💾 Guardar"  onAction="#ejecutarGuardarUsuario"
+                    style="-fx-background-color: #2980b9; -fx-text-fill: white;"/>
+            <Button text="✖ Cancelar" onAction="#ejecutarCancelar"/>
+        </HBox>
+    </VBox>
+</ScrollPane>

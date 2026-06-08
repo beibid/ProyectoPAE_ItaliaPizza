@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="italiapizza.controlador.ProductosControlador">
+    <top>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+            <TextField fx:id="campoBusqueda" promptText="Buscar por nombre o código..." prefWidth="260"/>
+            <Button text="Buscar" onAction="#ejecutarBusqueda"/>
+            <Button text="Todos"  onAction="#ejecutarLimpiarBusqueda"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Reporte PDF" onAction="#generarReporteInventario"
+                    style="-fx-background-color: #8e44ad; -fx-text-fill: white;"/>
+            <Button text="+ Nuevo Producto" onAction="#abrirFormularioNuevoProducto"
+                    style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+        </HBox>
+    </top>
+    <center>
+        <TableView fx:id="tablaProductos">
+            <columns>
+                <TableColumn fx:id="columnaCodigo"     text="Código"/>
+                <TableColumn fx:id="columnaNombre"     text="Nombre"/>
+                <TableColumn fx:id="columnaPrecio"     text="Precio"/>
+                <TableColumn fx:id="columnaExistencia" text="Existencia"/>
+            </columns>
+        </TableView>
+    </center>
+    <bottom>
+        <HBox spacing="8">
+            <padding><Insets top="8" right="10" bottom="10" left="10"/></padding>
+            <Button fx:id="botonEditarProducto"   text="Editar"    disable="true"
+                    onAction="#abrirFormularioEditarProducto"/>
+            <Button fx:id="botonEliminarProducto" text="Eliminar"  disable="true"
+                    onAction="#ejecutarEliminarProducto"/>
+        </HBox>
+    </bottom>
+</BorderPane>

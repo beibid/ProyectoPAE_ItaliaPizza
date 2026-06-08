@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="italiapizza.controlador.UsuariosControlador">
+    <top>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+            <TextField fx:id="campoBusqueda"
+                       promptText="Buscar por nombre, dirección o teléfono..." prefWidth="320"/>
+            <Button text="Buscar"  onAction="#ejecutarBusqueda"/>
+            <Button text="Todos"   onAction="#ejecutarLimpiarBusqueda"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="+ Nuevo Usuario" onAction="#abrirFormularioNuevoUsuario"
+                    style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+        </HBox>
+    </top>
+    <center>
+        <TableView fx:id="tablaUsuarios">
+            <columns>
+                <TableColumn fx:id="columnaIdentificador" text="ID"/>
+                <TableColumn fx:id="columnaNombre"        text="Nombre"/>
+                <TableColumn fx:id="columnaApellidos"     text="Apellidos"/>
+                <TableColumn fx:id="columnaTelefono"      text="Teléfono"/>
+                <TableColumn fx:id="columnaTipo"          text="Tipo"/>
+                <TableColumn fx:id="columnaRol"           text="Rol"/>
+            </columns>
+        </TableView>
+    </center>
+    <bottom>
+        <HBox spacing="8">
+            <padding><Insets top="8" right="10" bottom="10" left="10"/></padding>
+            <Button fx:id="botonEditarUsuario"   text="Editar"    disable="true"
+                    onAction="#abrirFormularioEditarUsuario"/>
+            <Button fx:id="botonEliminarUsuario" text="Eliminar"  disable="true"
+                    onAction="#ejecutarEliminarUsuario"/>
+        </HBox>
+    </bottom>
+</BorderPane>

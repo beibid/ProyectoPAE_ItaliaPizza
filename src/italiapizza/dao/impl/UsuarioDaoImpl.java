@@ -84,7 +84,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
                     sentencia.setString(4, usuario.getEmail());
                     sentencia.setString(5, usuario.getTipo().name());
                     sentencia.setString(6, usuario.getUsername());
-                    sentencia.setString(7, usuario.getPassword());
+                    sentencia.setString(7, hashearPassword(usuario.getPassword()));
                     sentencia.executeUpdate();
                     try (ResultSet claves = sentencia.getGeneratedKeys()) {
                         if (claves.next()) {
@@ -319,4 +319,22 @@ public class UsuarioDaoImpl implements IUsuarioDao {
         }
         return usuario;
     }
+
+    private String hashearPassword(String password) {
+        if (password == null || password.isBlank()) return null;
+        try {
+            java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (java.security.NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error al hashear contraseña", e);
+        }
+    }
+
 }

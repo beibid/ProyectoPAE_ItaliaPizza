@@ -10,7 +10,7 @@ public class Conexion {
     private static final String URL_BASE_DE_DATOS =
             "jdbc:mysql://localhost:3306/italiapizza?useSSL=false&serverTimezone=UTC";
     private static final String NOMBRE_USUARIO_BD = "root";
-    private static final String CONTRASENA_BD     = "coca";
+    private static final String CONTRASENA_BD     = "FakinCypher3$";
 
     private Conexion() {}
 

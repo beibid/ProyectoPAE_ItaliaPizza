@@ -1,19 +1,36 @@
 package italiapizza.controlador;
 
-
 import italiapizza.modelo.DetallePedido;
 import italiapizza.modelo.Pedido;
 import italiapizza.modelo.Producto;
 import italiapizza.modelo.Usuario;
+import italiapizza.util.Conexion;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-
 class PedidoControladorTest {
-    private final PedidoControlador pedidoControlador = new PedidoControlador();
+
+    private final PedidoLogicaControlador pedidoControlador = new PedidoLogicaControlador();
+
+    @AfterEach
+    void limpiarDespues() throws SQLException {
+        try (Connection con = Conexion.obtenerConexion();
+             Statement st = con.createStatement()) {
+            st.execute("SET FOREIGN_KEY_CHECKS = 0");
+            st.execute("DELETE FROM detalle_pedido WHERE id_pedido > 1");
+            st.execute("DELETE FROM pedido WHERE id_pedido > 1");
+            st.execute("SET FOREIGN_KEY_CHECKS = 1");
+        }
+    }
 
     private Pedido crearPedidoValido() {
         Producto producto = new Producto();
@@ -23,10 +40,13 @@ class PedidoControladorTest {
 
         Usuario cliente = new Usuario();
         cliente.setIdUsuario(5);
+        cliente.setIdCliente(3);
         cliente.setNombre("Juan");
         cliente.setApellidos("Pérez");
 
         Pedido pedido = new Pedido();
+        pedido.setIdPedido(1);
+        pedido.setIdCliente(3);
         pedido.setCliente(cliente);
         pedido.getDetalles().add(new DetallePedido(producto, 2));
         return pedido;

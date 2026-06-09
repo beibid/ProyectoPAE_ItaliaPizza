@@ -45,7 +45,7 @@ public class LoginControlador {
         }
     }
 
-    private String iniciarSesion(String nombreUsuario, String contrasena) {
+    String iniciarSesion(String nombreUsuario, String contrasena) {
         if (nombreUsuario.isEmpty() || contrasena.isEmpty()) {
             return "Por favor, ingresa usuario y contraseña.";
         }
@@ -59,7 +59,8 @@ public class LoginControlador {
         } catch (CredencialesInvalidasException excepcion) {
             return excepcion.getMessage();
         } catch (DaoException excepcion) {
-            return "Error de conexión: " + excepcion.getMessage();
+            Throwable causa = excepcion.getCause();
+            return "Error BD: " + (causa != null ? causa.getMessage() : excepcion.getMessage());
         }
     }
 

@@ -22,6 +22,9 @@
             <Menu text="Pedidos">
                 <MenuItem text="🛒 Pedidos" onAction="#abrirGestionPedidos"/>
             </Menu>
+        <Menu text="Ayuda">
+            <MenuItem text="ℹ Acerca de" onAction="#mostrarAcercaDe"/>
+        </Menu>
         </MenuBar>
     </top>
 

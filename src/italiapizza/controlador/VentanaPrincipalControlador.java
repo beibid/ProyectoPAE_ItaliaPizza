@@ -8,6 +8,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.stage.Modality;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -51,6 +56,27 @@ public class VentanaPrincipalControlador {
     @FXML
     public void abrirGestionPedidos() {
         abrirVentanaModal("/italiapizza/fxml/Pedidos.fxml", "Gestión de Pedidos", 900, 520);
+    }
+
+    @FXML
+    public void mostrarAcercaDe() {
+        String informacion =
+                "Sistema de Administración Italia Pizza \n\n" +
+                        "Integrantes del equipo:\n" +
+                        "  • Angel Ameth Bonilla Ramirez\n" +
+                        "  • David Espinoza Morales\n" +
+                        "  • Laurencio Lopez Martinez\n" +
+                        "  • Jesus Jared Morales Tirado\n\n" +
+                        "Carrera: Ingenieria de Software\n" +
+                        "Semestre: 4TO SEMESTRE\n" +
+                        "UNIVERSIDAD VERACRUZANA";
+
+        Alert dialogoAcercaDe = new Alert(Alert.AlertType.INFORMATION,
+                informacion, ButtonType.OK);
+        dialogoAcercaDe.setTitle("Acerca de");
+        dialogoAcercaDe.setHeaderText("🍕 Italia Pizza");
+        dialogoAcercaDe.initOwner(etiquetaEstado.getScene().getWindow());
+        dialogoAcercaDe.showAndWait();
     }
 
     @FXML

@@ -1,15 +1,42 @@
 package italiapizza.controlador;
 
-
 import italiapizza.modelo.Usuario;
+import italiapizza.util.Conexion;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class UsuarioControladorTest {
 
-    private final UsuarioControlador usuarioControlador = new UsuarioControlador();
+    private final UsuarioLogicaControlador usuarioControlador = new UsuarioLogicaControlador();
+
+    @BeforeEach
+    void limpiarAntes() throws SQLException {
+        limpiar();
+    }
+
+    @AfterEach
+    void limpiarDespues() throws SQLException {
+        limpiar();
+    }
+
+    private void limpiar() throws SQLException {
+        try (Connection con = Conexion.obtenerConexion();
+             Statement st = con.createStatement()) {
+            st.execute("SET FOREIGN_KEY_CHECKS = 0");
+            st.execute("DELETE FROM empleado WHERE id_usuario NOT IN (1)");
+            st.execute("DELETE FROM cliente WHERE id_usuario NOT IN (1,4,5,6)");
+            st.execute("DELETE FROM usuario WHERE id_usuario NOT IN (1,4,5,6)");
+            st.execute("SET FOREIGN_KEY_CHECKS = 1");
+        }
+    }
 
     private Usuario crearClienteValido() {
         Usuario usuario = new Usuario();
@@ -104,5 +131,4 @@ class UsuarioControladorTest {
         List<Usuario> resultado = usuarioControlador.obtenerClientes();
         assertNotNull(resultado);
     }
-
 }
